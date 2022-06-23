@@ -39,9 +39,17 @@ def calculate_time_from_gui():
 def calculate_chick_embryo_time_listener():
     start_time = calculate_time_from_gui()
     inc_time_val = incubation_time_entry.get()
+    hh_stage_val = target_hh_stage.get()
     if inc_time_val == '':
-        inc_time_val = 0
-    calculate_chick_embryo_time(start_day_var.get(), start_time, int(inc_time_val))
+        if hh_stage_val == '':
+            inc_time_val = 0
+            calculate_chick_embryo_time(start_day_var.get(), start_time, int(inc_time_val))
+        else:
+            incubation_time_entry.config(text=f'{HamburgerHamilton.get_time_from_stage(hh_stage_val)}')
+            calculate_from_hamburger_hamilton(start_day_var.get(), start_time, hh_stage_val)
+    else:
+        target_hh_stage.config(text=f'{HamburgerHamilton.get_stage_from_time(int(inc_time_val))}')
+        calculate_chick_embryo_time(start_day_var.get(), start_time, int(inc_time_val))
 
 
 if __name__ == '__main__':
@@ -80,12 +88,18 @@ if __name__ == '__main__':
     incubation_time_entry = Entry(root, text="0")
     incubation_time_entry.grid(row=4, column=1)
 
+    target_hh_label = Label(root, text="Target HH Stage", relief=RAISED)
+    target_hh_label.grid(row=5, column=0);
+
+    target_hh_stage = Entry(root, text="0")
+    target_hh_stage.grid(row=5,column=1)
+
     button_calc = Button(root, text="Calculate",
                          command=calculate_chick_embryo_time_listener)
-    button_calc.grid(row=5, column=0)
+    button_calc.grid(row=6, column=0)
 
     result_label = Label(root, text="Calculate incubation time")
-    result_label.grid(row=5, column=1)
+    result_label.grid(row=6, column=1)
     result_label.config(pady=50)
 
     root.mainloop()
