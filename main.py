@@ -48,7 +48,7 @@ def calculate_chick_embryo_time_listener():
             incubation_time_entry.config(text=f'{HamburgerHamilton.get_time_from_stage(hh_stage_val)}')
             calculate_from_hamburger_hamilton(start_day_var.get(), start_time, hh_stage_val)
     else:
-        target_hh_stage.config(text=f'{HamburgerHamilton.get_stage_from_time(int(inc_time_val))}')
+        hh_stage_text.set(f'{HamburgerHamilton.get_stage_from_time(int(inc_time_val))}')
         calculate_chick_embryo_time(start_day_var.get(), start_time, int(inc_time_val))
 
 
@@ -91,7 +91,9 @@ if __name__ == '__main__':
     target_hh_label = Label(root, text="Target HH Stage", relief=RAISED)
     target_hh_label.grid(row=5, column=0);
 
-    target_hh_stage = Entry(root, text="0")
+    hh_stage_text = StringVar()
+    hh_stage_text.set("0")
+    target_hh_stage = Entry(root, textvariable=hh_stage_text)
     target_hh_stage.grid(row=5,column=1)
 
     button_calc = Button(root, text="Calculate",
